@@ -1,4 +1,7 @@
 def parse_null(input_string):
+
+    if input_string[:4] == "null":
+        return None, input_string[4:]
     """Parses null
 
     >>> parse_null("null rest")
@@ -8,11 +11,14 @@ def parse_null(input_string):
     None
 
     """
-    if input_string[:4] == "null":
-        return None, input_string[4:]
 
 
 def parse_bool(input_string):
+
+    if input_string[:4] == "true":
+        return True, input_string[4:]
+    elif input_string[:5] == "false":
+        return False, input_string[:5]
     """Parses boolean
 
     >>> parse_bool("true rest")
@@ -22,22 +28,9 @@ def parse_bool(input_string):
     None
 
     """
-    if input_string[:4] == "true":
-        return True, input_string[4:]
-    elif input_string[:5] == "false":
-        return False, input_string[:5]
 
 
 def parse_number(input_string):
-    """Parses number
-
-    >>> parse_number("123.456 rest")
-    (123.456, " rest")
-
-    >>> parse_number("something else")
-    None
-
-    """
     digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "e", "E", "-", "+", "."}
     if input_string[:2] == "00" or input_string[1:3] == "00" or input_string[0] == " ":
         return input_string
@@ -55,6 +48,15 @@ def parse_number(input_string):
             return float(input_string[:index]), input_string[index:]
     else:
         input_string
+    """Parses number
+
+    >>> parse_number("123.456 rest")
+    (123.456, " rest")
+
+    >>> parse_number("something else")
+    None
+
+    """
 
 
 def parse_string(input_string):

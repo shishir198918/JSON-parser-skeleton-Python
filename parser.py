@@ -46,78 +46,57 @@ def parse_number(input_string):
     None
 
     """
-    digit = {
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "-",
-    }
-    pos_digit = {
-        "0",
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-    }
-    non_rep = {"e", "E", "+", ".", "-"}
-    if (
-        input_string[0] == "."
-        or input_string[0] == " "
-        or input_string[:2] == "00"
-        or (input_string[0] == "-" and input_string[1:3] == "00")
-        or input_string[:2] == "--"
-        or input_string[0] == "+"
-        or (input_string[0] == "0" and input_string[1] in pos_digit)
-        or (input_string[:2] == "-0" and input_string[2] in pos_digit)
-    ):
-        return None
-
     index = 0
-    counter_point = True
-    counter_exponent = True
-    counter_sign = True
-    if input_string[index] in digit and input_string[-1] not in non_rep:
-        # print(input_string[index])
+    if index < len(input_string) and input_string[index] == "-":
         index = index + 1
-        # numbers = digit.union(non_rep)
+        if index < len(input_string) and input_string[index] == "0":
+            index = index + 1
+        elif index < len(input_string) and (input_string[index]).isdigit():
+            while index < len(input_string) and (input_string[index]).isdigit():
+                index = index + 1
 
-        while index < len(input_string):
-            # print(input_string[index])
-            if input_string[index] in pos_digit:
-                index = index + 1
-            elif input_string[index] == "." and counter_point:
-                counter_point = False
-                index = index + 1
-            elif (
-                input_string[index] == "E" or input_string[index] == "e"
-            ) and counter_exponent:
-                counter_exponent = False
-                index = index + 1
-                if (
-                    input_string[index] == "-" or input_string[index] == "+"
-                ) and counter_sign:
-                    counter_sign = False
+    elif index < len(input_string) and (input_string[index]).isdigit():
+        while index < len(input_string) and (input_string[index]).isdigit():
+            index = index + 1
+
+    elif index < len(input_string) and input_string[index] == "0":
+        index = index + 1
+
+    else:
+        return None
+    # if index==len(input_string):
+    # return float(input_string[:index])
+
+    if index < len(input_string) and input_string[index] == ".":
+        index = index + 1
+        while index < len(input_string) and ((input_string[index]).isdigit()):
+            index = index + 1
+
+    elif index < len(input_string) and (
+        input_string[index] == "E" or input_string[index] == "e"
+    ):
+
+        index = index + 1
+        if (
+            index < len(input_string)
+            and input_string[index] == "+"
+            or input_string[index] == "-"
+        ):
+            index = index + 1
+            if index < len(input_string) and input_string[index].isdigit():
+                while index < len(input_string) and (input_string[index]).isdigit():
                     index = index + 1
             else:
-                break
-        if input_string[:index] == "-":
-            return None
-        else:
-            return float(input_string[:index]), input_string[index:]
-    return None
+                return None
 
+        elif index < len(input_string) and input_string[index].isdigit():
+            while index < len(input_string) and (input_string[index]).isdigit():
+                index = index + 1
+        else:
+            return None
+    if input_string[:index] == "-":
+        return None
+    return float(input_string[:index]), input_string[index:]
 
 def parse_string(input_string):
     """Parses string
